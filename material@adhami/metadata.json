@@ -1,0 +1,11 @@
+{
+    "description": "Turn the gnome-shell into Material design",
+    "name": "Material",
+    "settings-schema": "org.gnome.shell.extensions.material",
+    "shell-version": [
+        "43"
+    ],
+    "url": "",
+    "uuid": "material@adhami",
+    "version": 2
+}
