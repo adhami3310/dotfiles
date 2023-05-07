@@ -1,0 +1,5 @@
+#panel {
+  background-color: darken($accent_color, 3);
+  margin: 5px;
+  border-radius: 20px;
+}

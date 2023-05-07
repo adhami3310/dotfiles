@@ -1,12 +1,12 @@
 $slider_size: 42px;
 
-.android-slider, .quick-slider {
+.android-slider {
   color: $selected_fg_color;
   padding: 0;
   // slider trough
-  height: 42px;
-  -barlevel-height: 42px;
-  -barlevel-inactive-height: 4px;
+  // height: 42px;
+  // -barlevel-height: 42px;
+  // -barlevel-inactive-height: 4px;
   -barlevel-background-color: if($variant == 'light', transparentize($fg_color, 0.6), transparentize($fg_color, 0.8)); //background of the trough
   -barlevel-border-width: 0px; 
   -barlevel-border-color: transparent; // trough border color
@@ -22,17 +22,4 @@ $slider_size: 42px;
   -slider-handle-filter: invert(100%);
   -slider-handle-border-width: 0;
   -slider-handle-border-color: transparent; // because 0 width
-}
-
-.quick-slider {
-  & > StBoxLayout { spacing: 0; }
-
-  .icon-button { padding: 0; }
-
-  .slider-bin {
-    &:focus {@include button(focus);}
-    min-height: 16px; // slider size
-    padding: 0;
-    border-radius: 99px;
-  }
 }

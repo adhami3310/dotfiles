@@ -3647,7 +3647,7 @@ StScrollBar StButton#vhandle:active, StScrollBar StButton#hhandle:active {
 #panel {
   background-color: #26374b;
   color: #f2f2f2;
-  height: 1.25em;
+  height: 2.2em;
   margin: 0 5px 5px 5px;
   border-radius: 10px;
 }
@@ -3695,12 +3695,9 @@ StScrollBar StButton#vhandle:active, StScrollBar StButton#hhandle:active {
   padding: 0;
 }
 
-.android-slider, .quick-slider {
+.android-slider {
   color: #3d3846;
   padding: 0;
-  height: 42px;
-  -barlevel-height: 42px;
-  -barlevel-inactive-height: 4px;
   -barlevel-background-color: rgba(255, 255, 255, 0.2);
   -barlevel-border-width: 0px;
   -barlevel-border-color: transparent;
@@ -3713,30 +3710,4 @@ StScrollBar StButton#vhandle:active, StScrollBar StButton#hhandle:active {
   -slider-handle-filter: invert(100%);
   -slider-handle-border-width: 0;
   -slider-handle-border-color: transparent;
-}
-
-.quick-slider > StBoxLayout {
-  spacing: 0;
-}
-.quick-slider .icon-button, .quick-slider .background-app-item .close-button, .background-app-item .quick-slider .close-button, .quick-slider .login-dialog-button.cancel-button, .quick-slider .login-dialog-button.switch-user-button, .quick-slider .login-dialog-button.login-dialog-session-list-button {
-  padding: 0;
-}
-.quick-slider .slider-bin {
-  min-height: 16px;
-  padding: 0;
-  border-radius: 99px;
-}
-.quick-slider .slider-bin:focus {
-  transition-duration: 100ms;
-  color: white;
-  background-color: #4a5869;
-  box-shadow: inset 0 0 0 2px rgba(216, 222, 233, 0.6) !important;
-}
-.quick-slider .slider-bin:focus:hover {
-  background-color: #4f5e71;
-  box-shadow: inset 0 0 0 2px rgba(216, 222, 233, 0.7) !important;
-}
-.quick-slider .slider-bin:focus:active {
-  background-color: #55657a;
-  box-shadow: inset 0 0 0 2px rgba(216, 222, 233, 0.7) !important;
 }

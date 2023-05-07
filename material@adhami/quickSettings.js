@@ -24,8 +24,8 @@ const PowerManagerProxy = Gio.DBusProxy.makeProxyWrapper(DisplayDeviceInterface)
 
 const NIGHT_LIGHT_MAX = 4700;
 const NIGHT_LIGHT_MIN = 1400;
-const sliders = ["OutputStreamSlider","InputStreamSlider","BrightnessItem"];
-const removedItems = ["NMWiredToggle","NMWirelessToggle","NMModemToggle","NMBluetoothToggle","NMVpnToggle"];
+const sliders = ["OutputStreamSlider", "InputStreamSlider", "BrightnessItem"];
+const removedItems = ["NMWiredToggle", "NMWirelessToggle", "NMModemToggle", "NMBluetoothToggle", "NMVpnToggle"];
 
 var Extension = class Extension {
     constructor() {
@@ -33,11 +33,18 @@ var Extension = class Extension {
     }
 
     enable() {
+        this.qs = Main.panel.statusArea.quickSettings;
         this._buildModifiedUI();
-     }
+    }
 
-     _buildModifiedUI() {
+    _buildModifiedUI() {
         let N_QUICK_SETTINGS_COLUMNS = 2;
+
+        this.qs.remove_all_children();
+
+        this._indicators = new St.BoxLayout({
+            style_class: 'panel-status-indicators-box',
+        });
 
         this.qs.setMenu(new QuickSettingsMenu(this.qs, N_QUICK_SETTINGS_COLUMNS));
 
@@ -65,6 +72,28 @@ var Extension = class Extension {
         // this._unsafeMode = new UnsafeModeIndicator();
         this._backgroundApps = new imports.ui.status.backgroundApps.Indicator();
 
+
+
+        this._indicators.add_child(this._brightness);
+        this._indicators.add_child(this._remoteAccess);
+        this._indicators.add_child(this._thunderbolt);
+        this._indicators.add_child(this._location);
+        this._indicators.add_child(this._nightLight);
+        if (this._network)
+            this._indicators.add_child(this._network);
+        this._indicators.add_child(this._darkMode);
+        this._indicators.add_child(this._powerProfiles);
+        if (this._bluetooth)
+            this._indicators.add_child(this._bluetooth);
+        this._indicators.add_child(this._rfkill);
+        this._indicators.add_child(this._autoRotate);
+        this._indicators.add_child(this._volume);
+        // this._indicators.add_child(this._unsafeMode);
+        this._indicators.add_child(this._system);
+        this.qs.add_child(this._indicators);
+
+
+
         this._addItems(this._system.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
         this._addItems(this._volume.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
         this._addItems(this._brightness.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
@@ -88,7 +117,13 @@ var Extension = class Extension {
 
     _buildNormalUI() {
         let N_QUICK_SETTINGS_COLUMNS = 2;
-        
+
+        this.qs.remove_all_children();
+
+        this._indicators = new St.BoxLayout({
+            style_class: 'panel-status-indicators-box',
+        });
+
         //GNOME shell code
         this.qs.setMenu(new QuickSettingsMenu(this.qs, N_QUICK_SETTINGS_COLUMNS));
 
@@ -116,6 +151,26 @@ var Extension = class Extension {
         // this._unsafeMode = new UnsafeModeIndicator();
         this._backgroundApps = new imports.ui.status.backgroundApps.Indicator();
 
+
+        this._indicators.add_child(this._brightness);
+        this._indicators.add_child(this._remoteAccess);
+        this._indicators.add_child(this._thunderbolt);
+        this._indicators.add_child(this._location);
+        this._indicators.add_child(this._nightLight);
+        if (this._network)
+            this._indicators.add_child(this._network);
+        this._indicators.add_child(this._darkMode);
+        this._indicators.add_child(this._powerProfiles);
+        if (this._bluetooth)
+            this._indicators.add_child(this._bluetooth);
+        this._indicators.add_child(this._rfkill);
+        this._indicators.add_child(this._autoRotate);
+        this._indicators.add_child(this._volume);
+        // this._indicators.add_child(this._unsafeMode);
+        this._indicators.add_child(this._system);
+        this.qs.add_child(this._indicators);
+
+
         this._addItems(this._system.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
         this._addItems(this._volume.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
         this._addItems(this._brightness.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
@@ -142,6 +197,7 @@ var Extension = class Extension {
     }
 
     disable() {
+        this.qs = Main.panel.statusArea.quickSettings;
         this._buildNormalUI();
     }
 }
