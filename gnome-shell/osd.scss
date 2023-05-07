@@ -1,0 +1,13 @@
+.osd-window {
+    border: 1px $fg_color;
+    spacing: 20px;
+    padding: 12px 20px;
+    & > * { spacing: 4px; }
+    margin-bottom: 20px;
+    
+    StLabel {
+        font-size: 0;
+        margin: 0;
+        padding: 0;
+    }
+}

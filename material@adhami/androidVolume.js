@@ -28,10 +28,10 @@ function getMixerControl() {
     return _mixerControl;
 }
 
-function iconFunction(cr, handleX, handleY) {
+function iconFunction(cr, handleX, handleY, color) {
     handleX -= 1.5;
     handleY += 5;
-    Clutter.cairo_set_source_color(cr, Clutter.color_from_string("#191D11")[1]);
+    Clutter.cairo_set_source_color(cr, color);
     cr.arc(handleX, handleY, 3, 0, 2 * Math.PI);
     cr.fill();
     cr.moveTo(handleX+3, handleY);
@@ -43,9 +43,9 @@ function iconFunction(cr, handleX, handleY) {
     cr.fill();
 }
 
-function micFunction(cr, handleX, handleY) {
+function micFunction(cr, handleX, handleY, color) {
     handleY += 7;
-    Clutter.cairo_set_source_color(cr, Clutter.color_from_string("#191D11")[1]);
+    Clutter.cairo_set_source_color(cr, color);
     cr.setLineWidth(2);
     cr.moveTo(handleX, handleY+2);
     cr.lineTo(handleX, handleY-3);

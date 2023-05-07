@@ -56,7 +56,7 @@ var ModifiedSlider = GObject.registerClass({
         //     cr.setLineWidth(handleBorderWidth);
         //     cr.stroke();
         // }
-        if (this.iconFunction) this.iconFunction(cr, handleX, handleY);
+        if (this.iconFunction) this.iconFunction(cr, handleX, handleY, themeNode.get_foreground_color());
         cr.$dispose();
     }
 

@@ -1,9 +1,9 @@
 {
-    "description": "Turn the gnome-shell into Material design",
-    "name": "Material",
+    "description": "Get material-like sliders in your quick settings",
+    "name": "Material Sliders",
     "settings-schema": "org.gnome.shell.extensions.material",
     "shell-version": [
-        "43"
+        "44"
     ],
     "url": "",
     "uuid": "material@adhami",

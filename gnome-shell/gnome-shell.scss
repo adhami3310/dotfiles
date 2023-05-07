@@ -1,6 +1,15 @@
 $variant: 'dark';
 
-@import "gnome-shell-sass/_colors"; //use gtk colors
-@import "gnome-shell-sass/_drawing";
-@import "gnome-shell-sass/_common";
-@import "gnome-shell-sass/_widgets";
+@import "palette";
+
+$accent_color: #5e81ac;
+$other_accent_color: #d8dee9;
+
+@import "colors";
+@import "_drawing";
+@import "_common";
+@import "_widgets";
+
+@import "panel";
+@import "osd";
+@import "slider";

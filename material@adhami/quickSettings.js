@@ -17,7 +17,7 @@ const PowerProfiles = imports.ui.status.powerProfiles;
 const Volume = Me.imports.androidVolume;
 const Brightness = Me.imports.androidBrightness;
 const System = imports.ui.status.system;
-const { QuickSlider, QuickToggle, QuickSettingsItem } = imports.ui.quickSettings;
+const { QuickSlider, QuickToggle, QuickSettingsItem, QuickSettingsMenu } = imports.ui.quickSettings;
 const { loadInterfaceXML } = imports.misc.fileUtils;
 const DisplayDeviceInterface = loadInterfaceXML('org.freedesktop.UPower.Device');
 const PowerManagerProxy = Gio.DBusProxy.makeProxyWrapper(DisplayDeviceInterface);
@@ -29,56 +29,119 @@ const removedItems = ["NMWiredToggle","NMWirelessToggle","NMModemToggle","NMBlue
 
 var Extension = class Extension {
     constructor() {
+        this.qs = Main.panel.statusArea.quickSettings;
     }
 
     enable() {
-        this.qs = Main.panel.statusArea.quickSettings;
-        this.box = this.qs.menu.box.get_children()[0];
-        this._buildUI();
+        this._buildModifiedUI();
+     }
 
-        let maxHeight = Main.layoutManager.primaryMonitor.height - Main.panel.height -20;
-        this.qs.menu.box.style = `max-height: ${maxHeight}px; `;
+     _buildModifiedUI() {
+        let N_QUICK_SETTINGS_COLUMNS = 2;
+
+        this.qs.setMenu(new QuickSettingsMenu(this.qs, N_QUICK_SETTINGS_COLUMNS));
+
+        if (Config.HAVE_NETWORKMANAGER)
+            this._network = new imports.ui.status.network.Indicator();
+        else
+            this._network = null;
+
+        if (Config.HAVE_BLUETOOTH)
+            this._bluetooth = new imports.ui.status.bluetooth.Indicator();
+        else
+            this._bluetooth = null;
+
+        this._system = new imports.ui.status.system.Indicator();
+        this._volume = new Volume.Indicator();
+        this._brightness = new Brightness.Indicator();
+        this._remoteAccess = new imports.ui.status.remoteAccess.RemoteAccessApplet();
+        this._location = new imports.ui.status.location.Indicator();
+        this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+        this._nightLight = new imports.ui.status.nightLight.Indicator();
+        this._darkMode = new imports.ui.status.darkMode.Indicator();
+        this._powerProfiles = new imports.ui.status.powerProfiles.Indicator();
+        this._rfkill = new imports.ui.status.rfkill.Indicator();
+        this._autoRotate = new imports.ui.status.autoRotate.Indicator();
+        // this._unsafeMode = new UnsafeModeIndicator();
+        this._backgroundApps = new imports.ui.status.backgroundApps.Indicator();
+
+        this._addItems(this._system.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+        this._addItems(this._volume.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+        this._addItems(this._brightness.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+
+        this._addItems(this._remoteAccess.quickSettingsItems);
+        this._addItems(this._thunderbolt.quickSettingsItems);
+        this._addItems(this._location.quickSettingsItems);
+        if (this._network)
+            this._addItems(this._network.quickSettingsItems);
+        if (this._bluetooth)
+            this._addItems(this._bluetooth.quickSettingsItems);
+        this._addItems(this._powerProfiles.quickSettingsItems);
+        this._addItems(this._nightLight.quickSettingsItems);
+        this._addItems(this._darkMode.quickSettingsItems);
+        this._addItems(this._rfkill.quickSettingsItems);
+        this._addItems(this._autoRotate.quickSettingsItems);
+        // this._addItems(this._unsafeMode.quickSettingsItems);
+
+        this._addItems(this._backgroundApps.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
     }
 
-    _buildUI(){
-        this.bbChildren = this.box.get_children();
-        this.box.remove_all_children();
-        this.bbChildren.forEach((ch,i) => {
-            if (i < 2) {
-                this.qs.menu.addItem(ch, 2);
-            }
-            if (i == 2) {
-                this.volume = new Volume.Indicator();
-                this.brightness = new Brightness.Indicator();
+    _buildNormalUI() {
+        let N_QUICK_SETTINGS_COLUMNS = 2;
         
-                this._addItems(this.volume.quickSettingsItems, 2);
-                this._addItems(this.brightness.quickSettingsItems, 2);        
-            }
-            if(i >= 5) {
-                const name = ch.constructor.name.toString();
-                if(name && removedItems.includes(name)){
-                    return;
-                }    
-                this.qs.menu.addItem(ch, 1);
-            }
-        });
+        //GNOME shell code
+        this.qs.setMenu(new QuickSettingsMenu(this.qs, N_QUICK_SETTINGS_COLUMNS));
+
+        if (Config.HAVE_NETWORKMANAGER)
+            this._network = new imports.ui.status.network.Indicator();
+        else
+            this._network = null;
+
+        if (Config.HAVE_BLUETOOTH)
+            this._bluetooth = new imports.ui.status.bluetooth.Indicator();
+        else
+            this._bluetooth = null;
+
+        this._system = new imports.ui.status.system.Indicator();
+        this._volume = new imports.ui.status.volume.Indicator();
+        this._brightness = new imports.ui.status.brightness.Indicator();
+        this._remoteAccess = new imports.ui.status.remoteAccess.RemoteAccessApplet();
+        this._location = new imports.ui.status.location.Indicator();
+        this._thunderbolt = new imports.ui.status.thunderbolt.Indicator();
+        this._nightLight = new imports.ui.status.nightLight.Indicator();
+        this._darkMode = new imports.ui.status.darkMode.Indicator();
+        this._powerProfiles = new imports.ui.status.powerProfiles.Indicator();
+        this._rfkill = new imports.ui.status.rfkill.Indicator();
+        this._autoRotate = new imports.ui.status.autoRotate.Indicator();
+        // this._unsafeMode = new UnsafeModeIndicator();
+        this._backgroundApps = new imports.ui.status.backgroundApps.Indicator();
+
+        this._addItems(this._system.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+        this._addItems(this._volume.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+        this._addItems(this._brightness.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
+
+        this._addItems(this._remoteAccess.quickSettingsItems);
+        this._addItems(this._thunderbolt.quickSettingsItems);
+        this._addItems(this._location.quickSettingsItems);
+        if (this._network)
+            this._addItems(this._network.quickSettingsItems);
+        if (this._bluetooth)
+            this._addItems(this._bluetooth.quickSettingsItems);
+        this._addItems(this._powerProfiles.quickSettingsItems);
+        this._addItems(this._nightLight.quickSettingsItems);
+        this._addItems(this._darkMode.quickSettingsItems);
+        this._addItems(this._rfkill.quickSettingsItems);
+        this._addItems(this._autoRotate.quickSettingsItems);
+        // this._addItems(this._unsafeMode.quickSettingsItems);
+
+        this._addItems(this._backgroundApps.quickSettingsItems, N_QUICK_SETTINGS_COLUMNS);
     }
 
-    _addItems(items, colSpan = 1){
+    _addItems(items, colSpan = 1) {
         items.forEach(item => this.qs.menu.addItem(item, colSpan));
     }
 
     disable() {
-        this.box.remove_all_children();
-        this.qs.menu.box.style = '';
-        this.bbChildren.forEach((ch,i) => {
-            const name = ch.constructor.name.toString();
-            if(name && removedItems.includes(name)){
-                return;
-            }
-            if (i < 5) {
-                this.qs.menu.addItem(ch, 2);
-            } else if (i >= 5) this.qs.menu.addItem(ch);
-        });
+        this._buildNormalUI();
     }
 }

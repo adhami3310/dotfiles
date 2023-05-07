@@ -14,8 +14,8 @@ const OBJECT_PATH = '/org/gnome/SettingsDaemon/Power';
 const BrightnessInterface = loadInterfaceXML('org.gnome.SettingsDaemon.Power.Screen');
 const BrightnessProxy = Gio.DBusProxy.makeProxyWrapper(BrightnessInterface);
 
-function iconFunction(cr, handleX, handleY) {
-    Clutter.cairo_set_source_color(cr, Clutter.color_from_string("#191D11")[1]);
+function iconFunction(cr, handleX, handleY, color) {
+    Clutter.cairo_set_source_color(cr, color);
     cr.arc(handleX, handleY, 5, 0, 2 * Math.PI);
     cr.fill();
     for (let i = 0; i < 8; i += 1) {
